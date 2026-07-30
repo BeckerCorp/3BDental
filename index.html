@@ -6,6 +6,8 @@
     <title>3BDental | Agendar Citas & Tienda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
         .bg-primary { background-color: #0D47A1; }
         .text-primary { color: #0D47A1; }
@@ -61,22 +63,22 @@
         <h3 class="text-2xl font-bold text-center text-primary mb-10">Tienda</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
             <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-                <img src="https://placehold.co/400x200/90A4AE/white?text=Producto+1" class="h-40 w-full object-cover rounded-xl mb-4">
-                <h4 class="font-bold">Producto 1</h4>
-                <p class="text-gray-500 mb-4">$15.00</p>
-                <button onclick="addToCart('Producto 1', 15.00)" class="w-full bg-primary text-white py-3 rounded-xl">Agregar</button>
+                <img src="cepillo electrico.jpg" class="h-auto w-auto object-cover rounded-xl mb-4">
+                <h4 class="font-bold">Cepillo Electrico</h4>
+                <p class="text-gray-500 mb-4">S/.70.00</p>
+                <button onclick="addToCart('Producto 1', 70.00)" class="w-full bg-primary text-white py-3 rounded-xl">Agregar</button>
             </div>
             <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-                <img src="https://placehold.co/400x200/FB8C00/white?text=Producto+2" class="h-40 w-full object-cover rounded-xl mb-4">
-                <h4 class="font-bold">Producto 2</h4>
-                <p class="text-gray-500 mb-4">$25.00</p>
-                <button onclick="addToCart('Producto 2', 25.00)" class="w-full bg-primary text-white py-3 rounded-xl">Agregar</button>
+                <img src="pasta.png" class="h-80 w-auto object-cover rounded-xl mb-4">
+                <h4 class="font-bold">Pasta de Hidroxiapatita</h4>
+                <p class="text-gray-500 mb-4">S/50.00</p>
+                <button onclick="addToCart('Producto 2', 50.00)" class="w-full bg-primary text-white py-3 rounded-xl">Agregar</button>
             </div>
             <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-                <img src="https://placehold.co/400x200/42A5F5/white?text=Producto+3" class="h-40 w-full object-cover rounded-xl mb-4">
-                <h4 class="font-bold">Producto 3</h4>
-                <p class="text-gray-500 mb-4">$35.00</p>
-                <button onclick="addToCart('Producto 3', 35.00)" class="w-full bg-primary text-white py-3 rounded-xl">Agregar</button>
+                <img src="balsamo.png" class="h-auto w-auto object-cover rounded-xl mb-4">
+                <h4 class="font-bold">Balsamo Labial</h4>
+                <p class="text-gray-500 mb-4">S/.25.00</p>
+                <button onclick="addToCart('Producto 3', 25.00)" class="w-full bg-primary text-white py-3 rounded-xl">Agregar</button>
             </div>
         </div>
     </section>
@@ -91,13 +93,13 @@
             <!-- Iconos de Redes Sociales en el pie de página con mayor separación -->
             <div class="flex gap-6">
                 <a href="https://instagram.com" target="_blank" class="p-3.5 bg-white/15 rounded-full hover:bg-white/25 transition shadow-md" aria-label="Instagram">
-                    <i data-lucide="instagram" class="w-6 h-6"></i>
+                    <i class="fa-brands fa-instagram" class="w-6 h-6"></i>
                 </a>
                 <a href="https://facebook.com" target="_blank" class="p-3.5 bg-white/15 rounded-full hover:bg-white/25 transition shadow-md" aria-label="Facebook">
-                    <i data-lucide="facebook" class="w-6 h-6"></i>
+                    <i class="fa-brands fa-facebook-f" class="w-6 h-6"></i>
                 </a>
                 <a href="https://tiktok.com" target="_blank" class="p-3.5 bg-white/15 rounded-full hover:bg-white/25 transition shadow-md" aria-label="TikTok">
-                    <i data-lucide="video" class="w-6 h-6"></i>
+                    <i class="fa-brands fa-tiktok" class="w-6 h-6"></i>
                 </a>
             </div>
         </div>
