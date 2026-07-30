@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tu Negocio | Agendar Citas & Tienda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .bg-primary { background-color: #0D47A1; }
+        .text-primary { color: #0D47A1; }
+        .bg-secondary { background-color: #42A5F5; }
+        .bg-accent { background-color: #FB8C00; }
+        .text-accent { color: #FB8C00; }
+        .bg-neutral { background-color: #90A4AE; }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="fixed w-full z-50 glass shadow-md py-3 px-6 flex justify-between items-center">
+        <img src="Dental/3bdental.png"
+     alt="Logo"
+     class="h-14">
+        <div class="flex items-center gap-4">
+            <!-- Iconos de Redes Sociales en la parte superior con mayor separación -->
+            <div class="hidden sm:flex items-center gap-5">
+                <a href="https://instagram.com" target="_blank" class="p-2.5 bg-primary/10 rounded-full hover:bg-primary/20 transition text-primary shadow-sm" aria-label="Instagram">
+                    <i data-lucide="instagram" class="w-5 h-5"></i>
+                </a>
+                <a href="https://facebook.com" target="_blank" class="p-2.5 bg-primary/10 rounded-full hover:bg-primary/20 transition text-primary shadow-sm" aria-label="Facebook">
+                    <i data-lucide="facebook" class="w-5 h-5"></i>
+                </a>
+                <a href="https://tiktok.com" target="_blank" class="p-2.5 bg-primary/10 rounded-full hover:bg-primary/20 transition text-primary shadow-sm" aria-label="TikTok">
+                    <i data-lucide="video" class="w-5 h-5"></i>
+                </a>
+            </div>
+            <button onclick="toggleCart()" class="relative p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition">
+                <i data-lucide="shopping-cart" class="w-6 h-6 text-primary"></i>
+                <span id="cart-count" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-16 px-6 text-center bg-white">
+       <!-- <h2 class="text-4xl font-extrabold text-primary mb-4">Agenda tu cita hoy</h2>-->
+    <!--<p class="text-gray-600 mb-8 max-w-md mx-auto">Reserva por WhatsApp o explora nuestros productos destacados.</p>-->
+        <img
+            src="Dental/portada.png"
+            class="mx-auto mt-0 mb-8 rounded-3xl shadow-xl max-w-4xl w-full">
+        <div class="flex flex-col gap-3 max-w-xs mx-auto">
+            <button onclick="document.getElementById('servicios').scrollIntoView({behavior:'smooth'})" class="bg-accent text-white font-bold py-4 px-8 rounded-full shadow-lg">
+                Agendar Cita
+            </button>
+            <button onclick="document.getElementById('tienda').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white font-bold py-4 px-8 rounded-full shadow-lg">
+                Ver Productos
+            </button>
+        </div>
+    </header>
+
+    <section id="servicios" class="py-16 px-6">
+        <h3 class="text-2xl font-bold text-center text-primary mb-10">Nuestros Servicios</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <img src="https://placehold.co/400x200/42A5F5/white?text=Consulta+General" class="w-full h-40 object-cover rounded-xl mb-4">
+                <h4 class="text-xl font-semibold mb-2">Consulta General</h4>
+                <button onclick="showGeneralPolicy()" class="text-primary font-bold hover:underline">Reservar ahora</button>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <img src="https://placehold.co/400x200/0D47A1/white?text=Especialidad" class="w-full h-40 object-cover rounded-xl mb-4">
+                <h4 class="text-xl font-semibold mb-2">Consulta Especialidad</h4>
+                <button onclick="showSpecialtyPolicy()" class="text-primary font-bold hover:underline">Reservar ahora</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="tienda" class="py-16 px-6 bg-white">
+        <h3 class="text-2xl font-bold text-center text-primary mb-10">Tienda</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
+                <img src="https://placehold.co/400x200/90A4AE/white?text=Producto+1" class="h-40 w-full object-cover rounded-xl mb-4">
+                <h4 class="font-bold">Producto 1</h4>
+                <p class="text-gray-500 mb-4">$15.00</p>
+                <button onclick="addToCart('Producto 1', 15.00)" class="w-full bg-primary text-white py-3 rounded-xl">Agregar</button>
+            </div>
+            <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
+                <img src="https://placehold.co/400x200/FB8C00/white?text=Producto+2" class="h-40 w-full object-cover rounded-xl mb-4">
+                <h4 class="font-bold">Producto 2</h4>
+                <p class="text-gray-500 mb-4">$25.00</p>
+                <button onclick="addToCart('Producto 2', 25.00)" class="w-full bg-primary text-white py-3 rounded-xl">Agregar</button>
+            </div>
+            <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
+                <img src="https://placehold.co/400x200/42A5F5/white?text=Producto+3" class="h-40 w-full object-cover rounded-xl mb-4">
+                <h4 class="font-bold">Producto 3</h4>
+                <p class="text-gray-500 mb-4">$35.00</p>
+                <button onclick="addToCart('Producto 3', 35.00)" class="w-full bg-primary text-white py-3 rounded-xl">Agregar</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-primary text-white py-12 px-6">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+            <div>
+                 <img src="Dental/3bdental.png"
+     alt="Logo"
+     class="h-14">
+                <p class="text-gray-200 text-sm">Conectando contigo a través de nuestros canales oficiales.</p>
+            </div>
+            <!-- Iconos de Redes Sociales en el pie de página con mayor separación -->
+            <div class="flex gap-6">
+                <a href="https://instagram.com" target="_blank" class="p-3.5 bg-white/15 rounded-full hover:bg-white/25 transition shadow-md" aria-label="Instagram">
+                    <i data-lucide="instagram" class="w-6 h-6"></i>
+                </a>
+                <a href="https://facebook.com" target="_blank" class="p-3.5 bg-white/15 rounded-full hover:bg-white/25 transition shadow-md" aria-label="Facebook">
+                    <i data-lucide="facebook" class="w-6 h-6"></i>
+                </a>
+                <a href="https://tiktok.com" target="_blank" class="p-3.5 bg-white/15 rounded-full hover:bg-white/25 transition shadow-md" aria-label="TikTok">
+                    <i data-lucide="video" class="w-6 h-6"></i>
+                </a>
+            </div>
+        </div>
+        <div class="mt-8 text-center text-xs text-gray-300 border-t border-white/10 pt-6">
+            &copy; 2026 <span style="font-size:larger;"><strong>3BDental</strong></span>. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <div id="general-policy-modal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-3xl p-6">
+            <h3 class="text-xl font-bold mb-4 text-primary" id="modal-title">Aviso de Consulta</h3>
+            <p class="text-gray-600 mb-6" id="modal-text">La consulta tiene un costo de S/ 50.00. <b>Nota: Si te atiendes en el local o el mismo día, ¡no se cobra la consulta!</b></p>
+            <div class="flex gap-4">
+                <button onclick="closeModal('general-policy-modal')" class="flex-1 py-3 rounded-full border">Cancelar</button>
+                <button id="modal-confirm-btn" class="flex-1 py-3 rounded-full bg-accent text-white font-bold">Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="booking-form-modal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-3xl p-6 max-h-[90vh] overflow-y-auto">
+            <h3 class="text-xl font-bold mb-4 text-primary">Detalles de Cita</h3>
+            <form id="booking-form" class="space-y-4">
+                <input type="text" id="b-name" placeholder="Tu nombre" required class="w-full p-3 bg-gray-100 rounded-xl">
+                <input type="tel" id="b-phone" placeholder="Tu teléfono" required class="w-full p-3 bg-gray-100 rounded-xl">
+                <select id="b-urgency" class="w-full p-3 bg-gray-100 rounded-xl"><option value="No">No es urgente</option><option value="Sí">Es urgente</option></select>
+                <input type="datetime-local" id="b-datetime" required class="w-full p-3 bg-gray-100 rounded-xl">
+                <textarea id="b-desc" placeholder="Motivo de la consulta" class="w-full p-3 bg-gray-100 rounded-xl"></textarea>
+                <div class="flex gap-4 pt-4">
+                    <button type="button" onclick="closeModal('booking-form-modal')" class="flex-1 py-3 rounded-full border">Cancelar</button>
+                    <button type="submit" class="flex-1 bg-primary text-white py-3 rounded-full font-bold">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        const WHATSAPP_NUMBER = "51949357095";
+
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        
+        function showGeneralPolicy() {
+            const modal = document.getElementById('general-policy-modal');
+            const btn = document.getElementById('modal-confirm-btn');
+            modal.classList.remove('hidden');
+            btn.onclick = () => {
+                closeModal('general-policy-modal');
+                sendWhatsApp("Hola, quiero agendar una Consulta General. Entiendo que cuesta S/50 pero no se cobra si me atiendo en el local o el mismo día.");
+            };
+        }
+
+        function showSpecialtyPolicy() {
+            const modal = document.getElementById('general-policy-modal');
+            const btn = document.getElementById('modal-confirm-btn');
+            modal.classList.remove('hidden');
+            btn.onclick = () => {
+                closeModal('general-policy-modal');
+                document.getElementById('booking-form-modal').classList.remove('hidden');
+            };
+        }
+
+        document.getElementById('booking-form').onsubmit = function(e) {
+            e.preventDefault();
+            const msg = `Consulta por Especialidad:\nNombre: ${document.getElementById('b-name').value}\nTel: ${document.getElementById('b-phone').value}\nUrgente: ${document.getElementById('b-urgency').value}\nFecha: ${document.getElementById('b-datetime').value}\nDetalle: ${document.getElementById('b-desc').value}`;
+            sendWhatsApp(msg);
+        }
+
+        function sendWhatsApp(msg){
+            const url=`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`;
+            if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
+                window.location.href=url;
+            }else{
+                const w=window.open(url,"_blank","noopener,noreferrer");
+                if(!w){window.location.href=url;}
+            }
+        }
+
+        function addToCart(name, price) {
+            sendWhatsApp("Hola, quiero comprar: " + name);
+        }
+
+        function toggleCart() {
+            // Función genérica del carrito
+        }
+    </script>
+</body>
+</html>
