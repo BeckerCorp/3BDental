@@ -544,6 +544,9 @@
     </div>
 
     <script>
+        // URL de tu proyecto de Google Apps Script
+        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyIY2M3DMV3KNARKkjkeyukl6Ge8a03dKRNckbxipLjVPBDbfYAAKHeU0JbdYTXD1AGPg/exec';
+
         // Lógica del menú móvil
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
@@ -553,10 +556,22 @@
             link.addEventListener('click', () => { menu.classList.add('hidden'); });
         });
 
-        // BASE DE DATOS EN MEMORIA
+        // BASE DE DATOS LOCAL Y EN NUBE
         let citasRegistradas = [
             { fecha: new Date().toLocaleString(), origen: 'Formulario Web', nombre: 'Ana López (Ejemplo)', telefono: '949357095', motivo: 'Ortodoncia', estado: 'Aviso Enviado a Clínica' }
         ];
+
+        // FUNCIÓN QUE ENVÍA LOS DATOS A GOOGLE SHEETS EN SEGUNDO PLANO
+        function guardarEnGoogleSheets(datosCita) {
+            fetch(WEBHOOK_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datosCita)
+            }).then(() => {
+                console.log('Cita guardada correctamente en Google Sheets.');
+            }).catch(err => console.error('Error al guardar en Google Sheets:', err));
+        }
 
         // LÓGICA DEL FORMULARIO CLÁSICO
         function procesarFormulario(event) {
@@ -566,14 +581,21 @@
             const motivo = document.getElementById('motivo').value;
             const mensajeAdicional = document.getElementById('mensaje').value;
 
-            citasRegistradas.push({
-                fecha: new Date().toLocaleString(), origen: 'Formulario Web',
-                nombre: nombre, telefono: telefono, motivo: motivo, estado: 'Aviso Enviado a Clínica'
-            });
+            const nuevaCita = {
+                fecha: new Date().toLocaleString(), 
+                origen: 'Formulario Web',
+                nombre: nombre, 
+                telefono: telefono, 
+                motivo: motivo + (mensajeAdicional.trim() !== '' ? ` (Nota: ${mensajeAdicional})` : ''), 
+                estado: 'Aviso Enviado a Clínica'
+            };
 
-            // 🟢 NÚMERO ACTUALIZADO PARA ALERTA DEL FORMULARIO 🟢
+            citasRegistradas.push(nuevaCita);
+
+            // 🟢 Guardar en Google Sheets de forma permanente
+            guardarEnGoogleSheets(nuevaCita);
+
             const numeroDestino = '51949357095'; 
-            
             let texto = `*¡NUEVA ALERTA CRM WEB!* 🚨🦷\n\n*Paciente:* ${nombre}\n*Teléfono:* ${telefono}\n*Interés:* ${motivo}\n`;
             if (mensajeAdicional.trim() !== '') texto += `\n*Nota del paciente:* ${mensajeAdicional}`;
             texto += `\n\n_Registro añadido al CRM. Por favor contactar al paciente de inmediato._`;
@@ -658,7 +680,22 @@
             }
             else if (chatStep === 3) {
                 tempUserData.motivo = input; chatStep = 4;
-                citasRegistradas.push({ fecha: new Date().toLocaleString(), origen: tempUserData.origen, nombre: tempUserData.nombre, telefono: tempUserData.telefono, motivo: tempUserData.motivo, estado: 'Aviso Enviado a Clínica' });
+                
+                const nuevaCita = { 
+                    fecha: new Date().toLocaleString(), 
+                    origen: tempUserData.origen, 
+                    nombre: tempUserData.nombre, 
+                    telefono: tempUserData.telefono, 
+                    motivo: tempUserData.motivo, 
+                    estado: 'Pendiente de llamada' 
+                };
+
+                citasRegistradas.push(nuevaCita);
+
+                // 🟢 SE GUARDA EN GOOGLE SHEETS AQUÍ MISMO
+                // Garantiza que la cita quede registrada aun si el usuario dice "No, esperaré su llamada" o cierra la ventana.
+                guardarEnGoogleSheets(nuevaCita);
+
                 setTimeout(() => { addBotMessage("¡Perfecto! Ya guardé tu información de forma segura. 🔒");
                     setTimeout(() => {
                         addBotMessage("He enviado el aviso al equipo de recepción. ¿Deseas abrir WhatsApp para enviarles un mensaje directo ahora mismo y acelerar la atención?");
@@ -671,11 +708,10 @@
                 if(input === "Sí, enviar mis datos") {
                     addBotMessage("¡Genial! Abriendo WhatsApp... ¡Nos vemos pronto en 3B Dental! 👋");
                     
-                    // 🟢 NÚMERO ACTUALIZADO PARA ALERTA DEL CHATBOT 🟢
                     const texto = `*¡NUEVA ALERTA CRM CHATBOT!* 🚨🐶\nSoy BiBí. Paciente interesado:\n\n*Nombre:* ${tempUserData.nombre}\n*Teléfono:* ${tempUserData.telefono}\n*Interés:* ${tempUserData.motivo}`;
                     setTimeout(() => { window.open(`https://wa.me/51949357095?text=${encodeURIComponent(texto)}`, '_blank'); toggleChatbot(); chatStep=0; }, 1500);
                 } else {
-                    addBotMessage("¡Entendido! Nuestro personal ya tiene tus datos y te llamará pronto. ¡Que tengas un gran día! 💙");
+                    addBotMessage("¡Entendido! Nuestro personal ya tiene tus datos registrados y te llamará pronto. ¡Que tengas un gran día! 💙");
                     setTimeout(() => { toggleChatbot(); chatStep=0; }, 4000);
                 }
             }
@@ -683,7 +719,6 @@
 
         // LÓGICA DEL PANEL DE ADMINISTRACIÓN (CRM) OCULTO
         function pedirPasswordAdmin() {
-            // Este evento se dispara haciendo doble clic en el texto de copyright del Footer
             const pass = prompt("🔒 Acceso Restringido para Clínica. Ingrese la contraseña:");
             if (pass === "admin123") {
                 abrirPanelAdmin();
